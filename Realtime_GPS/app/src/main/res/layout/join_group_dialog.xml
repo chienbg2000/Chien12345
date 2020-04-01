@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Join Group"
+        android:textSize="36dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        />
+    <EditText
+        android:id="@+id/EditText_YourGroups_Join"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Join Code"
+        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/Button_YourGroups_Join_OK"
+            android:layout_marginRight="20sp"
+            android:text="Tham gia"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            />
+        <Button
+            android:id="@+id/Button_YourGroups_Join_NO"
+            android:text="Hủy"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

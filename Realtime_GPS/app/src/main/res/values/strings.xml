@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Realtime_GPS</string>
+    <string name="sign_in">Sign In</string>
+    <string name="orSignUp">Sign up!</string>
+    <string name="KeyGGMap">AIzaSyCQsFuJ2yhayfydSGYfjQizzHmzu4ztBq4</string>
+    <string name="title_shop">Shop</string>
+    <string name="title_gifts">Gifts</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_profile">Profile</string>
+    <string name="main_get_group">Nhóm Tam Đảo</string>
+    <string name="dropdown_1">An Toàn</string>
+    <string name="dropdown_2">Đi Lạc</string>
+    <string name="dropdown_3">Gặp Nguy Hiểm</string>
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
+</resources>

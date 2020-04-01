@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#80000000</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorApp">#E2E1E1</color>
+    <color name="colorButtonBlu">#2196F3</color>
+    <color name="colorHint">#3D3D3D</color>
+    <color name="backgroud">#FFFFFF</color>
+    <color name="bgBottomNavigation">#fe485a</color>
+    <color name="lavender">#E4A0F7</color>
+</resources>
+

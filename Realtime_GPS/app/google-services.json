@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "663708883087",
+    "firebase_url": "https://androidfilebase-f1c03.firebaseio.com",
+    "project_id": "androidfilebase-f1c03",
+    "storage_bucket": "androidfilebase-f1c03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663708883087:android:f5191de1c2aba292de78fa",
+        "android_client_info": {
+          "package_name": "com.example.realtime_gps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663708883087-cdhgf0nocg72e0ie5g0edomlsfiq6m2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPt7_kHD3422PW235VJi6i6hTuaJdWUSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663708883087-cdhgf0nocg72e0ie5g0edomlsfiq6m2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
