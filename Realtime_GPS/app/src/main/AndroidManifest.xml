@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <service android:name=".Service.SenLocation"/>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -22,7 +27,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/KeyGGMap"
             >
-
         </meta-data>
         <activity android:name=".ForgotPassword"/>
         <activity android:name=".SignUpActivity"/>
@@ -40,6 +44,7 @@
             >
 
         </activity>
+
     </application>
 
 </manifest>

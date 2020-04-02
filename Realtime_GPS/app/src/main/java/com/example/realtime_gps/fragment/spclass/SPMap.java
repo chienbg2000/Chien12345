@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.realtime_gps.MainActivity;
+import com.example.realtime_gps.fragment.Model.Group;
+import com.example.realtime_gps.fragment.Model.User;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -26,12 +30,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class SPMap extends Activity {
+    public static Context context;
 
     private static GoogleMap map;
 
     private static String userID;
 
-    private static ArrayList<String> listUserID = new ArrayList<String>();
+    private static ArrayList<User> listUser = new ArrayList<User>();
+
+    private static ArrayList<MarkerOptions> markerList = new ArrayList<MarkerOptions>();
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
@@ -67,7 +74,7 @@ public class SPMap extends Activity {
         return true;
     }
 
-    public static void requires_GPS(FragmentActivity activity){
+    public static void requires_GPS(Activity activity){
 
         //https://developer.android.com/training/permissions/requesting.html#java
         // Here, thisActivity is the current activity
@@ -97,27 +104,34 @@ public class SPMap extends Activity {
         }
     }
 
+    static ValueEventListener getUSER = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            User user = dataSnapshot.getValue(User.class);
+            listUser.add(user);
+            Toast.makeText(context,user.getUsername(),Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
     public static void getListMember(String groupID){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("group").child(groupID).child("list_user");
-        reference.addChildEventListener(new ChildEventListener() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("userInGroup").child(groupID);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                listUserID.add(dataSnapshot.getValue().toString());
-            }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listUser.clear();
+                //Duyệt rất cả các ID của các Gr
+                for (DataSnapshot snapshot1 : dataSnapshot.getChildren()){
+                    DatabaseReference getUser = FirebaseDatabase.getInstance().getReference("Users")
+                            .child(snapshot1.getValue().toString());
+                        getUser.addListenerForSingleValueEvent(getUSER);
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                }
             }
 
             @Override
@@ -127,35 +141,11 @@ public class SPMap extends Activity {
         });
     }
 
-    public static void getListLocation(){
-
-        for (final String uID : listUserID) {
-            userID = uID;
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(uID);
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    double latitude = Double.valueOf(dataSnapshot.child("latitude").getValue().toString());
-                    double longitude = Double.valueOf(dataSnapshot.child("longitude").getValue().toString());
-                    LatLng latLng = new LatLng(latitude,longitude);
-                    map.addMarker(new MarkerOptions().position(latLng).title("okboy"));
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
 
 
-    }
-
-    public static void showListLocation(GoogleMap m){
-        getListMember("-M14ZUL9n_SC2atl66vi");
-        map = m;
-        getListLocation();
 
 
-    }
+
+
 
 }

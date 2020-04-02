@@ -5,13 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
+import com.example.realtime_gps.Service.SenLocation;
 import com.example.realtime_gps.fragment.GroupFragment;
 import com.example.realtime_gps.fragment.LocationTag;
 import com.example.realtime_gps.fragment.MapFragment;
@@ -20,18 +22,20 @@ import com.example.realtime_gps.fragment.SettingFragment;
 import com.example.realtime_gps.fragment.spclass.SPMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNV;
     MapFragment mapFragment;
+    Switch aSwitch;
+    Intent intentSv;
 
 
     private void finID(){
         bottomNV = findViewById(R.id.navigation);
+        aSwitch = findViewById(R.id.switch2);
+        intentSv = new Intent(MainActivity.this,SenLocation.class);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -78,6 +82,24 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    private void swith(){
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    startService(intentSv);
+
+                }
+                else {
+
+                    stopService(intentSv);
+                }
+            }
+        });
+        aSwitch.setChecked(true);
+
+    }
+
 
 
     @Override
@@ -93,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
         finID();
         bottomNV.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         SPMap.requires_GPS(this);
+        Intent intent = new Intent(this,SenLocation.class);
 
-
+        swith();
 
     }
 

@@ -208,9 +208,6 @@ public class GroupFragment extends Fragment {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-
-
-
         }
 
         @Override

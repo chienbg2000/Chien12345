@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.realtime_gps.DatabaseSQLite;
 import com.example.realtime_gps.fragment.Model.Group;
+import com.example.realtime_gps.fragment.Model.User;
 import com.example.realtime_gps.fragment.adapter.GroupListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class SPGroup {
+    ArrayList<User> arrayListMember = new ArrayList<User>();
 
     private static boolean boolExitsJoin = true;
     // phần này phải xem lại vì chưa đc tối ưu đâu
@@ -67,9 +69,9 @@ public class SPGroup {
 
 
 
-    public  static void  clear(){
 
-    }
+
+
     public static void INSERT_GroupList(Context context){
 
 

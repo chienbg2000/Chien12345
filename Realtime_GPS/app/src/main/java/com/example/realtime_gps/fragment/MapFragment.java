@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.realtime_gps.R;
+import com.example.realtime_gps.fragment.Model.User;
+import com.example.realtime_gps.fragment.spclass.SPGroup;
 import com.example.realtime_gps.fragment.spclass.SPMap;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,7 +32,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -36,11 +50,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static View view;
     private Spinner spinner;
     private GoogleMap mMap;
+    ImageView image_profile;
+    StorageReference storageReference;
+    FirebaseUser fuser;
+    DatabaseReference reference;
 
     //Chữa lỗi dò rỉ bộ nhớ
     //Nguồn https://helpex.vn/question/id-trung-lap-the-null-hoac-id-cha-voi-mot-doan-khac-cho-com-google-android-gms-maps-mapfragment-5cb71a31ae03f62598dde726
 
     private void spinnerTT(){
+
+        image_profile = view.findViewById(R.id.profile_image);
+
+
+        storageReference = FirebaseStorage.getInstance().getReference("uploads");
+
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user.getImageURL().equals("default")){
+                    image_profile.setImageResource(R.mipmap.ic_launcher);
+                } else {
+                    Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         spinner = view.findViewById(R.id.spinner);
         ArrayList<String> spinerTTString = new ArrayList<String>();
@@ -57,7 +101,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        SPMap.requires_GPS(getActivity());
 
         if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
@@ -71,6 +114,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         spinnerTT();
+        SPMap.context = getContext();
+        SPMap.getListMember("-M3Lh8I_DzllN9NU0xnt");
 
         SupportMapFragment mapFragment = (SupportMapFragment)
                 this.getChildFragmentManager()
@@ -81,6 +126,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -89,13 +136,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         LatLng latLng = new LatLng(21.005959, 105.841940);
-//        mMap.addMarker(new MarkerOptions().position(latLng).title("okboy"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18));
-        SPMap.showListLocation(mMap);
-//        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-
-
-
 
 
     }
